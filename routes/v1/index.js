@@ -2,7 +2,6 @@ const router = require('express').Router();
 
 router.use('/user', require('./userRoutes'));
 
-router.use('/poduct', require('./productRoutes'));
-
+router.use('/product', require('./productRoutes'));
 
 module.exports = router;
