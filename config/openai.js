@@ -11,41 +11,33 @@ const extractionFunctionSchema = {
   parameters: {
     type: 'object',
     properties: {
-      tone: {
+      title: {
         type: 'string',
-        enum: ['positive', 'negative'],
-        description: 'The overall tone of the input',
       },
-      word_count: {
-        type: 'number',
-        description: 'The number of words in the input',
-      },
-      chat_response: {
+      description: {
         type: 'string',
-        description: "A response to the human's input",
       },
     },
-    required: ['tone', 'word_count', 'chat_response'],
   },
 };
 
 const model = new OpenAI({
   model: 'gpt-4',
-  maxTokens: 128,
+  // maxTokens: 128,
   temperature: 0.9,
   apiKey: process.env.OPEN_API_API_KEY,
-}).bind({
-  response_format: {
-    type: 'json_object',
-  },
 });
+// .bind({
+//   response_format: {
+//     type: 'json_object',
+//   },
+// });
 
-const runnable = model
-  .bind({
-    functions: [extractionFunctionSchema],
-    function_call: { name: 'extractor' },
-  })
-  .pipe(parser);
+const runnable = model.bind({
+  // functions: [extractionFunctionSchema],
+  // function_call: { name: 'extractor' },
+});
+// .pipe(parser);
 
 // Invoke the runnable with an input
 const callOpenAi = (text) => runnable.invoke([new HumanMessage(text)]);
