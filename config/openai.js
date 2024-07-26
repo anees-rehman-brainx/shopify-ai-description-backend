@@ -11,36 +11,32 @@ const extractionFunctionSchema = {
   parameters: {
     type: 'object',
     properties: {
-      title: {
-        type: 'string',
-      },
-      description: {
-        type: 'string',
-      },
+      title: { type: 'string' },
+      description: { type: 'string' },
+      keywords: { type: 'array', items: { type: 'string' } },
+      bullet_1: { type: 'string' },
+      bullet_2: { type: 'string' },
+      bullet_3: { type: 'string' },
+      bullet_4: { type: 'string' },
+      bullet_5: { type: 'string' },
     },
   },
 };
 
 const model = new OpenAI({
   model: 'gpt-4',
-  // maxTokens: 128,
   temperature: 0.9,
   apiKey: process.env.OPEN_API_API_KEY,
 });
-// .bind({
-//   response_format: {
-//     type: 'json_object',
-//   },
-// });
 
 const runnable = model.bind({
-  // functions: [extractionFunctionSchema],
-  // function_call: { name: 'extractor' },
+  functions: [extractionFunctionSchema],
 });
-// .pipe(parser);
 
-// Invoke the runnable with an input
-const callOpenAi = (text) => runnable.invoke([new HumanMessage(text)]);
+const callOpenAi = async (text) => {
+  const response = await runnable.invoke([new HumanMessage(text)]);
+  return response;
+};
 
 module.exports = {
   model,
