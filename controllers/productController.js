@@ -3,9 +3,9 @@ const { prompt, getPrompt } = require('../constants');
 
 const productDescription = async (req, res) => {
   try {
-    const { title, description } = req.body;
-
-    const response = await openai.callOpenAi(getPrompt(title, description));
+    const response = await openai.callOpenAi(
+      getPrompt(JSON.stringify(req.body))
+    );
 
     let jsonResponse;
     if (typeof response === 'string') {
