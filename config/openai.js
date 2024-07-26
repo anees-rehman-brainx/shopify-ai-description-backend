@@ -25,7 +25,7 @@ const extractionFunctionSchema = {
 
 const model = new OpenAI({
   model: process.env.MODEL_VERSION,
-  temperature: process.env.TEMPRETURE,
+  temperature: parseFloat(process.env.TEMPRETURE),
   apiKey: process.env.OPEN_AI_API_KEY,
 });
 
