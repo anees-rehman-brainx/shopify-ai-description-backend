@@ -24,8 +24,8 @@ const extractionFunctionSchema = {
 };
 
 const model = new OpenAI({
-  model: 'gpt-4',
-  temperature: 0.9,
+  model: process.env.MODEL_VERSION,
+  temperature: process.env.TEMPRETURE,
   apiKey: process.env.OPEN_AI_API_KEY,
 });
 
