@@ -8,8 +8,6 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const { db } = require('./config');
 
 const PORT = process.env.PORT || 5000;
-const models = require('./models');
-
 
 app.use(express.json());
 app.use(cors());
