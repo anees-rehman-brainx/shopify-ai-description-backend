@@ -12,7 +12,7 @@ const productDescription = async (req, res) => {
     }
 
     const response = await openai.callOpenAi(
-      getPrompt(JSON.stringify(req.body.product), what_to_generate)
+      getPrompt(JSON.stringify(req.body), what_to_generate)
     );
 
     
