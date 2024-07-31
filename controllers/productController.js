@@ -2,15 +2,31 @@ const { openai } = require('../config');
 const { prompt, getPrompt } = require('../constants');
 
 const productDescription = async (req, res) => {
+
   try {
+
+    let {what_to_generate} = req.body;
+
+    if(!what_to_generate || !what_to_generate?.length > 0){
+      what_to_generate = ['title']
+    }
+
     const response = await openai.callOpenAi(
-      getPrompt(JSON.stringify(req.body))
+      getPrompt(JSON.stringify(req.body.product), what_to_generate)
     );
 
+    
     let jsonResponse;
+
+    let sanitizedResponse = response;
+    
     if (typeof response === 'string') {
+      sanitizedResponse = response?.replace(/,\s*}([\s\n]*)$/, '}');
+      sanitizedResponse = sanitizedResponse?.replace(/,\s*](\s*)$/, ']');
+      
       try {
-        jsonResponse = JSON.parse(response);
+        jsonResponse = JSON.parse(sanitizedResponse);
+      
       } catch (jsonError) {
         console.error('JSON parsing error:', jsonError);
         return res.status(500).send({
@@ -19,7 +35,7 @@ const productDescription = async (req, res) => {
       }
     } else {
       jsonResponse = response;
-    }
+    }    
 
     return res.status(200).json(jsonResponse);
   } catch (error) {
